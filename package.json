@@ -2,6 +2,7 @@
   "name": "pf-survey-fe",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://mike131.github.io/pf-survey-fe",
   "dependencies": {
     "@craco/craco": "^6.3.0",
     "@tailwindcss/forms": "^0.3.4",
@@ -12,6 +13,7 @@
     "@types/node": "^12.20.28",
     "@types/react": "^17.0.27",
     "@types/react-dom": "^17.0.9",
+    "gh-pages": "^3.2.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.3.0",
@@ -26,7 +28,9 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --quiet",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b main -d build"
   },
   "browserslist": {
     "production": [
