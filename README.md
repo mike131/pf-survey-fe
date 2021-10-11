@@ -5,7 +5,7 @@
 3. create a `.env` file and paste the below contents
       ```
       REACT_APP_API_SERVER=http://localhost:5000/api
-      REACT_APP_WS_SERVER=http://localhost:8080
+      REACT_APP_WS_SERVER=http://localhost:5000
       ```
 4. run `npm i`
 5. run `npm run start-local`
