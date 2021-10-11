@@ -31,8 +31,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --quiet",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -b main -d build"
+    "predeploy": "npm run build"
   },
   "browserslist": {
     "production": [
