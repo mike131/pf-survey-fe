@@ -1,8 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+
+if (process.env.NODE_ENV === 'test') {
+  // eslint-disable-next-line
+  const { worker } = require('./mocks/browser');
+  // eslint-disable-next-line
+  worker.start();
+}
 
 ReactDOM.render(
   <React.StrictMode>

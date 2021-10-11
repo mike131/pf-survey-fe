@@ -1,25 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { ReactElement, useEffect, useState } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import AnswerBox from './AnswerBox';
+import { APIResponse, IQuestion } from "./APIResponseTypes";
+import QuestionList from './QuestionList';
+import QuestionResults from "./QuestionResults";
 
-function App() {
+function App(): ReactElement {
+  const [questions, setQuestions] = useState<IQuestion[]>([]);
+
+  useEffect(() => {
+    // Use effect to get question list, load question/answer view if only 1 question
+    void loadQuestions();
+  }, []);
+
+  async function loadQuestions() {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_SERVER as string}/question`);
+      const { data } = (await res.json()) as APIResponse<IQuestion[]>;
+      if (data) {
+        setQuestions(data);
+      }
+    } catch (e) {
+      console.error("App: loadQuestions failed ", e);
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="">
+        <Switch>
+          <Route path="/answer/:questionId" render={({ match }) => {
+            const question = questions.find(q => q.id === match.params.questionId) as IQuestion
+            return question ? (
+              <AnswerBox 
+                questionId={question.id} 
+                question={question?.body} 
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                disallowed={question.disallowedStrings} 
+              />
+            ) : '';
+          }} />
+          <Route path="/question/:questionId">
+            <QuestionResults />
+          </Route>
+          <Route path="/">
+            {questions.length ? (
+              <QuestionList questions={questions} />) : 'No Questions'
+            }
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 

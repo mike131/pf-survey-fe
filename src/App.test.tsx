@@ -1,9 +1,15 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from './testUtils';
+import { MemoryRouter } from 'react-router';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders No Questions at / when no questions returned', () => {
+  render(
+    <MemoryRouter initialEntries={['/']}>
+      <App />
+    </MemoryRouter>
+  );
+
+  const noQuestionsText = screen.getByText(/No Questions/i);
+  expect(noQuestionsText).toBeInTheDocument();
 });
