@@ -2,6 +2,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AnswerBox from './AnswerBox';
 import { APIResponse, IQuestion } from "./APIResponseTypes";
+import { socket, SocketContext } from './context/socket';
 import QuestionList from './QuestionList';
 import QuestionResults from "./QuestionResults";
 
@@ -41,7 +42,9 @@ function App(): ReactElement {
             ) : '';
           }} />
           <Route path="/question/:questionId">
-            <QuestionResults />
+            <SocketContext.Provider value={socket}>
+              <QuestionResults />
+            </SocketContext.Provider>
           </Route>
           <Route path="/">
             {questions.length ? (

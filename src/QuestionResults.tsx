@@ -1,7 +1,8 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useContext, useEffect, useState } from "react";
 import { withRouter, RouteComponentProps, useParams, Link } from "react-router-dom";
 import { io, Socket } from 'socket.io-client';
 import { APIResponse, IAnswer } from './APIResponseTypes';
+import { SocketContext } from './context/socket';
 
 interface IRouteParams {
   questionId: string;
@@ -9,11 +10,14 @@ interface IRouteParams {
 
 const QuestionResults: FunctionComponent<RouteComponentProps<IRouteParams>> =
   () => {
-    const socket: Socket = io(`${process.env.REACT_APP_WS_SERVER as string}`, {
-      transports: ['websocket', 'polling']
-    });
+    const socket: Socket = useContext(SocketContext);
     const { questionId } = useParams<IRouteParams>();
     const [answers, setAnswers] = useState<IAnswer[]>([]);
+
+    const updateAnswers = useCallback((data) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      setAnswers(prevState => [...prevState, data]);
+    }, [])
 
     useEffect(() => {
       void loadAnswers();
@@ -24,17 +28,15 @@ const QuestionResults: FunctionComponent<RouteComponentProps<IRouteParams>> =
         console.log('Connected to socket ', questionId);
       });
 
-      socket.on('newAnswer', (data) => {
-        // Updated list with new answers
-        setAnswers([...answers, data]);
-      });
+      // Bind newAnswer event to updateAnswers
+      socket.on('newAnswer', updateAnswers)
 
       // On Message, load
       return function cleanup () {
-        socket.disconnect();
+        socket.off();
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [socket]);
 
     async function loadAnswers() {
       try {
