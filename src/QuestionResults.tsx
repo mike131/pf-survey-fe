@@ -10,7 +10,7 @@ interface IRouteParams {
 const QuestionResults: FunctionComponent<RouteComponentProps<IRouteParams>> =
   () => {
     const socket: Socket = io(`${process.env.REACT_APP_WS_SERVER as string}`, {
-      transports: ['websocket']
+      transports: ['websocket', 'polling']
     });
     const { questionId } = useParams<IRouteParams>();
     const [answers, setAnswers] = useState<IAnswer[]>([]);
@@ -21,11 +21,12 @@ const QuestionResults: FunctionComponent<RouteComponentProps<IRouteParams>> =
       socket.on('connect', () => {
         // Join the question room
         socket.emit('msg:join', { questionId })
+        console.log('Connected to socket ', questionId);
       });
 
       socket.on('newAnswer', (data) => {
         // Updated list with new answers
-        setAnswers([...answers.concat(data)]);
+        setAnswers([...answers, data]);
       });
 
       // On Message, load

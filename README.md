@@ -8,7 +8,7 @@
       REACT_APP_WS_SERVER=http://localhost:8080
       ```
 4. run `npm i`
-5. run `npm start`
+5. run `npm run start-local`
 
 # Notes
 It's preferred to start the backend application first, so that the frontend has something to pull down
