@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "serve -s build",
-    "start-local": "craco start",
+    "start-local": "PORT=3001 craco start",
     "postinstall": "npm run build",
     "build": "craco build",
     "test": "craco test",
