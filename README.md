@@ -17,7 +17,7 @@ It's preferred to start the backend application first, so that the frontend has 
 ---
 
 ### Coding Challenge
-Please complete the following tasks within 4-7 days. If you need more time, please let us know. Send your response and/or any questions to tanya@pickfu.com.
+Please complete the following tasks within 4-7 days. If you need more time, please let us know.
 _______________________________________________________________________
 ### Live Answers
 The goal is to make a small full-stack application that shows a question and allows the user to submit answers for that question, using React for the frontend, and NodeJS, or Ruby On Rails for the backend, with any database engine. You should not work for more than 4-5 hours on this task.
